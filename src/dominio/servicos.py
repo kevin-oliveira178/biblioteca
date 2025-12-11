@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from src.dominio.entidades import Livro, Usuario, Emprestimo
+from src.dominio.regras import prazo_padrao
 from src.infra.repositorios import (
     LivroRepository,
     UsuarioRepository,
@@ -46,7 +47,6 @@ class CadastrarLivroService:
         )
 
         self.livros.salvar(livro)
-
         return livro
 
 
@@ -72,17 +72,18 @@ class EmprestarLivroService:
         if livro is None:
             raise ValueError("Livro não encontrado.")
 
-        # Regra: só empresta se há exemplares disponíveis
+        # Validações de domínio
+        usuario.registrar_emprestimo()
         livro.emprestar()
 
-        # Cria empréstimo (prevendo devolução em 7 dias)
         emprestimo = Emprestimo(
             id_usuario=id_usuario,
             id_livro=id_livro,
-            data_prevista_devolucao=datetime.now() + timedelta(days=7)
+            data_prevista_devolucao=datetime.now() + prazo_padrao()
         )
 
         # Persistência
+        self.usuarios.salvar(usuario)
         self.livros.salvar(livro)
         self.emprestimos.salvar(emprestimo)
 
@@ -95,8 +96,10 @@ class EmprestarLivroService:
 class DevolverLivroService:
 
     def __init__(self, livros: LivroRepository,
+                 usuarios: UsuarioRepository,
                  emprestimos: EmprestimoRepository):
         self.livros = livros
+        self.usuarios = usuarios
         self.emprestimos = emprestimos
 
     def executar(self, id_emprestimo: str):
@@ -109,12 +112,16 @@ class DevolverLivroService:
         if livro is None:
             raise ValueError("Livro não encontrado para este empréstimo.")
 
-        # Regras
+        usuario = self.usuarios.buscar_por_id(emp.id_usuario)
+        if usuario is None:
+            raise ValueError("Usuário não encontrado para este empréstimo.")
+
         emp.marcar_devolvido()
         livro.devolver()
+        usuario.registrar_devolucao()
 
-        # Persistência
         self.emprestimos.salvar(emp)
         self.livros.salvar(livro)
+        self.usuarios.salvar(usuario)
 
         return emp

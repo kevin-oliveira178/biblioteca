@@ -1,0 +1,10 @@
+# Ignorar caches e bytecode Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ambiente virtual
+.venv/
+venv/
+env/

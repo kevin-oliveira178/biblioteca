@@ -1,57 +1,117 @@
-# infra/repositorios.py
+# src/infra/repositorios.py
 
-from dominio.entidades import Usuario, Livro
+from abc import ABC, abstractmethod
+from typing import Dict, List, Optional
+from src.dominio.entidades import Usuario, Livro, Emprestimo
 
 
-class UsuarioRepositorioMemoria:
+# ============================================
+#   REPOSITÓRIOS ABSTRATOS (DDD)
+# ============================================
+
+class UsuarioRepository(ABC):
+
+    @abstractmethod
+    def salvar(self, usuario: Usuario) -> None:
+        pass
+
+    @abstractmethod
+    def buscar_por_id(self, id_usuario: str) -> Optional[Usuario]:
+        pass
+
+    @abstractmethod
+    def buscar_por_email(self, email: str) -> Optional[Usuario]:
+        pass
+
+    @abstractmethod
+    def listar(self) -> List[Usuario]:
+        pass
+
+
+class LivroRepository(ABC):
+
+    @abstractmethod
+    def salvar(self, livro: Livro) -> None:
+        pass
+
+    @abstractmethod
+    def buscar_por_id(self, id_livro: str) -> Optional[Livro]:
+        pass
+
+    @abstractmethod
+    def listar(self) -> List[Livro]:
+        pass
+
+
+class EmprestimoRepository(ABC):
+
+    @abstractmethod
+    def salvar(self, emprestimo: Emprestimo) -> None:
+        pass
+
+    @abstractmethod
+    def buscar_por_id(self, id_emprestimo: str) -> Optional[Emprestimo]:
+        pass
+
+    @abstractmethod
+    def listar(self) -> List[Emprestimo]:
+        pass
+
+    @abstractmethod
+    def listar_por_usuario(self, id_usuario: str) -> List[Emprestimo]:
+        pass
+
+
+# ============================================
+#   IMPLEMENTAÇÕES EM MEMÓRIA
+# ============================================
+
+class UsuarioRepositoryMemoria(UsuarioRepository):
+
     def __init__(self):
-        self.usuarios = {}
-        self._carregar_dados_iniciais()
+        self.usuarios: Dict[str, Usuario] = {}
 
-    def _carregar_dados_iniciais(self):
-        # Dados fake para teste
-        u1 = Usuario(id=1, nome="Kevin", ativo=True, limite_emprestimos=3)
-        u2 = Usuario(id=2, nome="Maria", ativo=True, limite_emprestimos=2)
-        u3 = Usuario(id=3, nome="João", ativo=False, limite_emprestimos=1)
-
-        self.usuarios[u1.id] = u1
-        self.usuarios[u2.id] = u2
-        self.usuarios[u3.id] = u3
-
-    def obter_por_id(self, usuario_id):
-        return self.usuarios.get(usuario_id)
-
-    def atualizar(self, usuario):
+    def salvar(self, usuario: Usuario) -> None:
         self.usuarios[usuario.id] = usuario
 
+    def buscar_por_id(self, id_usuario: str) -> Optional[Usuario]:
+        return self.usuarios.get(id_usuario)
 
-class LivroRepositorioMemoria:
+    def buscar_por_email(self, email: str) -> Optional[Usuario]:
+        return next((u for u in self.usuarios.values() if u.email == email), None)
+
+    def listar(self) -> List[Usuario]:
+        return list(self.usuarios.values())
+
+
+class LivroRepositoryMemoria(LivroRepository):
+
     def __init__(self):
-        self.livros = {}
-        self._carregar_dados_iniciais()
+        self.livros: Dict[str, Livro] = {}
 
-    def _carregar_dados_iniciais(self):
-        l1 = Livro(id=1, titulo="Python para Iniciantes", disponivel=True)
-        l2 = Livro(id=2, titulo="Estatística Aplicada", disponivel=True)
-        l3 = Livro(id=3, titulo="Senhor dos Anéis", disponivel=False)
-
-        self.livros[l1.id] = l1
-        self.livros[l2.id] = l2
-        self.livros[l3.id] = l3
-
-    def obter_por_id(self, livro_id):
-        return self.livros.get(livro_id)
-
-    def atualizar(self, livro):
+    def salvar(self, livro: Livro) -> None:
         self.livros[livro.id] = livro
 
+    def buscar_por_id(self, id_livro: str) -> Optional[Livro]:
+        return self.livros.get(id_livro)
 
-class EmprestimoRepositorioMemoria:
+    def listar(self) -> List[Livro]:
+        return list(self.livros.values())
+
+
+class EmprestimoRepositoryMemoria(EmprestimoRepository):
+
     def __init__(self):
-        self.emprestimos = []
+        self.emprestimos: Dict[str, Emprestimo] = {}
 
-    def salvar(self, emprestimo):
-        self.emprestimos.append(emprestimo)
+    def salvar(self, emprestimo: Emprestimo) -> None:
+        self.emprestimos[emprestimo.id] = emprestimo
 
-    def listar(self):
-        return self.emprestimos
+    def buscar_por_id(self, id_emprestimo: str) -> Optional[Emprestimo]:
+        return self.emprestimos.get(id_emprestimo)
+
+    def listar(self) -> List[Emprestimo]:
+        return list(self.emprestimos.values())
+
+    def listar_por_usuario(self, id_usuario: str) -> List[Emprestimo]:
+        return [e for e in self.emprestimos.values() if e.id_usuario == id_usuario]
