@@ -2,8 +2,10 @@ from dataclasses import dataclass, field
 import uuid
 from datetime import datetime
 
-# classe de livros
 
+# ========================================
+#   ENTIDADE: LIVRO
+# ========================================
 @dataclass
 class Livro:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -25,7 +27,9 @@ class Livro:
         self.quantidade_disponivel += 1
 
 
-#classe de usuários
+# ========================================
+# ENTIDADE: USUÁRIO
+# ========================================
 @dataclass
 class Usuario:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -33,10 +37,27 @@ class Usuario:
     email: str = ""
     matricula: str = ""
     ativo: bool = True
+    limite_emprestimos: int = 3
+    emprestimos_ativos: int = 0
+
+    def pode_emprestar(self) -> bool:
+        return self.ativo and self.emprestimos_ativos < self.limite_emprestimos
+
+    def registrar_emprestimo(self):
+        if not self.ativo:
+            raise ValueError("O usuário está inativo e não pode realizar empréstimos.")
+        if self.emprestimos_ativos >= self.limite_emprestimos:
+            raise ValueError("O usuário atingiu o limite de empréstimos.")
+        self.emprestimos_ativos += 1
+
+    def registrar_devolucao(self):
+        if self.emprestimos_ativos > 0:
+            self.emprestimos_ativos -= 1
 
 
-#classe de emprestimo 
-
+# ========================================
+# ENTIDADE: EMPRÉSTIMO
+# ========================================
 @dataclass
 class Emprestimo:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
@@ -48,6 +69,9 @@ class Emprestimo:
     status: str = "ativo"  # ativo, devolvido, atrasado
 
     def marcar_devolvido(self):
+        if self.status == "devolvido":
+            raise ValueError("Este empréstimo já foi devolvido anteriormente.")
+
         self.status = "devolvido"
         self.data_devolucao = datetime.now()
 
@@ -57,3 +81,4 @@ class Emprestimo:
         if self.data_devolucao is None:
             return datetime.now() > self.data_prevista_devolucao
         return self.data_devolucao > self.data_prevista_devolucao
+

@@ -72,7 +72,6 @@ class EmprestarLivroService:
         if livro is None:
             raise ValueError("Livro não encontrado.")
 
-        # Validações de domínio
         usuario.registrar_emprestimo()
         livro.emprestar()
 

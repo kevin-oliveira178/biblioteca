@@ -2,7 +2,7 @@ from src.app.conteiner import Container
 
 
 def menu():
-    print("\n===== SISTEMA DE BIBLIOTECA (DDD) =====")
+    print("\n===== BEM VINDO AO SISTEMA DE BIBLIOTECA  =====")
     print("1 - Cadastrar Usuário")
     print("2 - Cadastrar Livro")
     print("3 - Emprestar Livro")
