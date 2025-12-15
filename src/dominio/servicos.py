@@ -64,6 +64,9 @@ class EmprestarLivroService:
 
     def executar(self, id_usuario: str, id_livro: str) -> Emprestimo:
 
+##TODO 2.1: aqui pode ver que ele retorna None. preciso ver se ta sendo salvo mesmo no 
+#respositório o usuário.(provavelmente o erro acontece para o livro tbm)
+
         usuario = self.usuarios.buscar_por_id(id_usuario)
         if usuario is None:
             raise ValueError("Usuário não encontrado.")

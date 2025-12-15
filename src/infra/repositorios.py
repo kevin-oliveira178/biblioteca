@@ -92,6 +92,10 @@ class LivroRepositoryMemoria(LivroRepository):
     def salvar(self, livro: Livro) -> None:
         self.livros[livro.id] = livro
 
+# TODO 2 : aqui deve ta o problema. o livro está sendo criado mas não está sendo encontrado no repositorio.
+# dai vem o none. 
+# 
+#  
     def buscar_por_id(self, id_livro: str) -> Optional[Livro]:
         return self.livros.get(id_livro)
 

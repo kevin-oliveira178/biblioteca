@@ -34,7 +34,7 @@ def test_fluxo_completo_emprestimo():
     )
 
     # Fluxo
-    usuario = fachada.cadastrar_usuario(
+    usuario= fachada.cadastrar_usuario(
         nome="joão",
         email="jc@gmail.com",
         matricula="12345"
@@ -47,6 +47,10 @@ def test_fluxo_completo_emprestimo():
         ano=2021,
         quantidade=1
     )
+#TODO o erro esta aqui nessa linha,. na hora de passar o id do usuário e do livro estou pasando
+# variaveis vazias.; como faço pra acessar o id do usuário e do livro que foram criados agora ????
+#edit1: tentei ver se a referencia usuário aqui dentro tava gerando confusão no código. substitui por usuaário_fk. 
+# não estava. o erro persiste. voltei pra referencia antiga. o usuário está sendo criado mas está retornando como None
 
     emprestimo = fachada.emprestar_livro(usuario.id, livro.id)
 
