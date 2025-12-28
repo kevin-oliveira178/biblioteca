@@ -6,6 +6,6 @@ def test_usuario_pode_emprestar():
 
 def test_usuario_nao_pode_emprestar():
     u = Usuario(nome="Kevin", limite_emprestimos=1)
-    u.quantidade_emprestimos_ativos = 1
+    u.emprestimos_ativos = 1
 
     assert u.pode_emprestar() is False

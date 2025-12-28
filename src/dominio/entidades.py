@@ -14,7 +14,7 @@ class Livro:
     isbn: str = ""
     ano_publicacao: int = 0
     quantidade_total: int = 0
-    quantidade_disponivel: int = 0
+    quantidade_disponivel: int = field(init=False)
 
     def emprestar(self):
         if self.quantidade_disponivel <= 0:
@@ -24,9 +24,14 @@ class Livro:
     def devolver(self):
         if self.quantidade_disponivel >= self.quantidade_total:
             raise ValueError("Todos os exemplares já foram devolvidos.")
-        self.quantidade_disponivel += 1
+        self.quantidade_disponivel += 1 
 
 
+
+    #esse "metodo vai atualizar a quantidade disponivel apos um novo objeto ser iniciado"
+    
+    def __post_init__(self):
+        self.quantidade_disponivel = self.quantidade_total
 # ========================================
 # ENTIDADE: USUÁRIO
 # ========================================

@@ -21,8 +21,9 @@ class CadastrarUsuarioService:
             raise ValueError("Já existe um usuário cadastrado com esse e-mail.")
 
         usuario = Usuario(nome=nome, email=email, matricula=matricula)
+        print("USUÁRIO CRIADO:", usuario)
         self.usuarios.salvar(usuario)
-
+        print("REPO DEPOIS DO SALVAR:", self.usuarios.listar())
         return usuario
 
 
@@ -43,7 +44,6 @@ class CadastrarLivroService:
             isbn=isbn,
             ano_publicacao=ano,
             quantidade_total=quantidade,
-            quantidade_disponivel=quantidade
         )
 
         self.livros.salvar(livro)
