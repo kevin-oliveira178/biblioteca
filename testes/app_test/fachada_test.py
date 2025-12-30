@@ -21,8 +21,8 @@ def test_fluxo_completo_emprestimo():
     usuario_service = CadastrarUsuarioService(usuario_repo)
     livro_service = CadastrarLivroService(livro_repo)
     emprestimo_service = EmprestarLivroService(
-        usuario_repo,
         livro_repo,
+        usuario_repo,
         emprestimo_repo
     )
 
