@@ -55,7 +55,8 @@ class CadastrarLivroService:
 # ========================================
 class EmprestarLivroService:
 
-    def __init__(self, livros: LivroRepository,
+    def __init__(self,
+                  livros: LivroRepository,
                  usuarios: UsuarioRepository,
                  emprestimos: EmprestimoRepository):
         self.livros = livros

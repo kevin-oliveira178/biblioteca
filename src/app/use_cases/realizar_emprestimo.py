@@ -12,7 +12,7 @@ class RealizarEmprestimoService:
         # aplica regras de negócio do domínio
         self.emprestimo_domain_service.validar(usuario, livro)
 
-        emprestimo = Emprestimo(usuario_id, livro_id)
+        emprestimo = Emprestimo_serv(usuario_id, livro_id)
         self.emprestimo_repo.salvar(emprestimo)
 
         return emprestimo

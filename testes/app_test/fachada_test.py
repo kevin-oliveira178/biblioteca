@@ -21,10 +21,10 @@ def test_fluxo_completo_emprestimo():
     usuario_service = CadastrarUsuarioService(usuario_repo)
     livro_service = CadastrarLivroService(livro_repo)
     emprestimo_service = EmprestarLivroService(
-        livro_repo,
-        usuario_repo,
-        emprestimo_repo
-    )
+    livro_repo,
+    usuario_repo,
+    emprestimo_repo
+)
 
     # Fachada (como foi projetada)
     fachada = Fachada(
@@ -53,7 +53,6 @@ def test_fluxo_completo_emprestimo():
 # não estava. o erro persiste. voltei pra referencia antiga. o usuário está sendo criado mas está retornando como None
 
     emprestimo = fachada.emprestar_livro(usuario.id, livro.id)
-
     assert emprestimo is not None
     assert livro.quantidade_disponivel == 0
 

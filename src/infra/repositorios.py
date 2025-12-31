@@ -17,9 +17,16 @@ class UsuarioRepositoryMemoria(UsuarioRepository):
 
     def salvar(self, usuario: Usuario) -> None:
         self.usuarios[usuario.id] = usuario
-
+        #temporary debug print
+        print("SALVOU USUÁRIO:", usuario.id)
     def buscar_por_id(self, id_usuario: str) -> Optional[Usuario]:
-        return self.usuarios.get(id_usuario)
+
+
+# temporary debug print
+        user = self.usuarios.get(id_usuario)
+        print("BUSCANDO USUÁRIO:", id_usuario)
+        print("USUÁRIOS NO REPO:", self.usuarios.keys())
+        return user
 
     def buscar_por_email(self, email: str) -> Optional[Usuario]:
         return next((u for u in self.usuarios.values() if u.email == email), None)
@@ -35,13 +42,26 @@ class LivroRepositoryMemoria(LivroRepository):
 
     def salvar(self, livro: Livro) -> None:
         self.livros[livro.id] = livro
+       
+       #temporary debug print
+        print("SALVOU LIVRO:", livro.id)
+
+
 
 # TODO 2 : aqui deve ta o problema. o livro está sendo criado mas não está sendo encontrado no repositorio.
 # dai vem o none. 
 # 
 #  
     def buscar_por_id(self, id_livro: str) -> Optional[Livro]:
-        return self.livros.get(id_livro)
+
+        ## test print debug
+        book = self.livros.get(id_livro)
+        print("BUSCANDO LIVRO:", id_livro)
+        print("LIVRO ENCONTRADO:", book)
+        print("LIVROS NO REPO:", self.livros.keys())
+        
+
+        return book
 
     def listar(self) -> List[Livro]:
         return list(self.livros.values())
