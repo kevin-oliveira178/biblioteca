@@ -41,8 +41,9 @@ src/
 │   └── main.py
 │
 └── testes/         → Testes automatizados
+```
 
-🧭 Por onde começar a ler o código?
+## 🧭 Por onde começar a ler o código?
 
 Para compreender o projeto de forma correta, recomenda-se a seguinte ordem de leitura:
 
@@ -70,7 +71,7 @@ Para compreender o projeto de forma correta, recomenda-se a seguinte ordem de le
     UI/main.py
     Implementa a interface de linha de comando (CLI).
 
-🧩 Camada de Domínio
+## 🧩 Camada de Domínio
 
 A camada de domínio representa o núcleo do sistema, onde estão as regras de negócio.
 📦 Entidades (dominio/entidades.py)
@@ -137,7 +138,7 @@ Esses serviços garantem:
 
     Atualização do estado do sistema
 
-🗄️ Camada de Infraestrutura
+## 🗄️ Camada de Infraestrutura
 📁 Repositórios (infra/repositorios.py)
 
 Contém as implementações em memória dos repositórios definidos no domínio:
@@ -149,7 +150,7 @@ Contém as implementações em memória dos repositórios definidos no domínio:
     EmprestimoRepositoryMemoria
 
 Essas classes são responsáveis apenas por armazenar e recuperar dados, sem conter regras de negócio.
-🧱 Camada de Aplicação
+## 🧱 Camada de Aplicação
 🔌 Container (app/use_cases/conteiner.py)
 
 O container é responsável por:
@@ -204,7 +205,7 @@ pip install -r requirements.txt
 
 python src/UI/main.py
 
-🧪 Testes
+## 🧪 Testes
 
 Os testes estão localizados em:
 
