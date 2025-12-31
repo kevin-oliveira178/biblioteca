@@ -118,7 +118,7 @@ Principais regras:
     💰 Multa calculada por dia de atraso
 
 Essas regras são utilizadas pelos serviços de domínio.
-⚙️ Serviços de Domínio (dominio/servicos.py)
+## ⚙️ Serviços de Domínio (dominio/servicos.py)
 
 Os serviços de domínio representam os casos de uso do sistema, incluindo:
 
@@ -177,7 +177,7 @@ A fachada fornece uma interface simplificada para uso do sistema, expondo métod
     devolver_livro
 
 A interface do usuário não acessa diretamente os serviços, apenas a fachada.
-🖥️ Interface do Usuário (CLI)
+## 🖥️ Interface do Usuário (CLI)
 📄 UI/main.py
 
 Implementa uma interface de linha de comando (CLI), responsável por:
@@ -219,7 +219,7 @@ Eles validam:
 
     Regras de negócio
 
-📜 Histórico do Projeto
+## 📜 Histórico do Projeto
 
 O histórico detalhado de mudanças do projeto pode ser encontrado no arquivo:
 
